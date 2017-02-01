@@ -20,6 +20,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        //var txtvHello = findViewById(R.id.txtv_helloworld) as TextView
+
         txtvHello.text = "HelloWorld"
         btnConfirm.text = "클릭"
         btnConfirm.setOnClickListener {
@@ -42,15 +44,14 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    fun doNetwork()
-    {
+    fun doNetwork() {
         var api = Service.hitRetro()
 
         api.currentWeather().enqueue(object : Callback<Stats> {
             override fun onResponse(call: Call<Stats>, response: Response<Stats>) {
-                txtvHello.text = response.body().stat().click
-                println(response.body().stat().click)
-                println(response.body().data().toString())
+                txtvHello.text = response.body().mResponse?.data?.arrData?.get(0)?.mStat?.click
+                println(response.body().mResponse?.data?.arrData?.get(0)?.mStat?.click)
+                println(response.body().mResponse?.data?.arrData?.get(0)?.mStat?.conversion)
 
                 println("성공")
             }
