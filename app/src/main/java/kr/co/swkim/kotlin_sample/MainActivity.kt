@@ -6,25 +6,32 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import butterknife.bindView
+import kr.co.swkim.kotlin_sample.API.Service
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class MainActivity : AppCompatActivity() {
     val txtvHello: TextView by bindView(R.id.txtv_helloworld)
     val btnConfirm: Button by bindView(R.id.btn_confirm)
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        txtvHello.text ="Hello"
+        txtvHello.text = "HelloWorld"
         btnConfirm.text = "클릭"
         btnConfirm.setOnClickListener {
             it ->
-            Toast.makeText(this,"clicked",Toast.LENGTH_LONG).show()
+            Toast.makeText(this, "clicked", Toast.LENGTH_LONG).show()
             callbackFunction()
+            doNetwork()
         }
+
     }
 
-    fun callbackFunction(){
+    fun callbackFunction() {
         val a = (0..10)
                 .filter { it % 2 == 0 }
                 .map { it * it }
@@ -32,5 +39,27 @@ class MainActivity : AppCompatActivity() {
                     (if (s != "") s + "_" else "") + i.toString()
                 }
         println(a)
+    }
+
+
+    fun doNetwork()
+    {
+        var api = Service.hitRetro()
+
+        api.currentWeather().enqueue(object : Callback<Stats> {
+            override fun onResponse(call: Call<Stats>, response: Response<Stats>) {
+                txtvHello.text = response.body().stat().click
+                println(response.body().stat().click)
+                println(response.body().data().toString())
+
+                println("성공")
+            }
+
+            override fun onFailure(call: Call<Stats>, error: Throwable) {
+                txtvHello.text = error.toString()
+                println(error.toString())
+                println("실패")
+            }
+        })
     }
 }
