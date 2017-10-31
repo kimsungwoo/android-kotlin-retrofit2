@@ -5,7 +5,7 @@ import android.support.v7.app.AppCompatActivity
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
-import butterknife.bindView
+import kotterknife.bindView
 import kr.co.swkim.kotlin_sample.API.Service
 import retrofit2.Call
 import retrofit2.Callback
@@ -19,8 +19,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        //var txtvHello = findViewById(R.id.txtv_helloworld) as TextView
 
         txtvHello.text = "HelloWorld"
         btnConfirm.text = "클릭"
@@ -63,4 +61,6 @@ class MainActivity : AppCompatActivity() {
             }
         })
     }
+
+    fun plus() = 1
 }
